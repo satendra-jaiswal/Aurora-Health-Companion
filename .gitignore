@@ -1,0 +1,21 @@
+# Node modules
+node_modules/
+app/node_modules/
+server/node_modules/
+
+# Expo / build directories
+app/.expo/
+app/dist/
+app/web-build/
+
+# Local databases
+server/aurora.db
+server/aurora.db-journal
+
+# Environment variables (API keys)
+.env
+server/.env
+
+# OS files
+.DS_Store
+Thumbs.db
