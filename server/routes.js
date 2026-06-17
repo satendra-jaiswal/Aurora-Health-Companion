@@ -355,4 +355,26 @@ router.delete('/meals/:id', async (req, res) => {
   }
 });
 
+router.post('/user/clear', async (req, res) => {
+  try {
+    await dbUtils.run("DELETE FROM users");
+    await dbUtils.run("DELETE FROM hydration_logs");
+    await dbUtils.run("DELETE FROM sleep_logs");
+    await dbUtils.run("DELETE FROM habit_logs");
+    await dbUtils.run("DELETE FROM meals");
+    await dbUtils.run("DELETE FROM health_memory");
+    await dbUtils.run("DELETE FROM habits");
+    
+    // Re-insert default habits
+    await dbUtils.run("INSERT INTO habits (name, icon, frequency) VALUES ('Drink Water', 'droplet', 'daily')");
+    await dbUtils.run("INSERT INTO habits (name, icon, frequency) VALUES ('Morning Stretch', 'accessibility', 'daily')");
+    await dbUtils.run("INSERT INTO habits (name, icon, frequency) VALUES ('Read a Book', 'book', 'daily')");
+    await dbUtils.run("INSERT INTO habits (name, icon, frequency) VALUES ('Meditation', 'wind', 'daily')");
+
+    res.json({ success: true, message: 'Database reset successfully' });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 module.exports = router;
